@@ -67,22 +67,32 @@ fun ageDescription(age: Int): String {
     else if (age in 2..4) return "$age года"
     else if (age in 10..20) return "$age лет"
     else if (age in 100..120) return "$age лет"
-    else if (age%10 == 1) return "$age год"
-    else if (age%10 in 2..4) return "$age года"
-    else if (age%100 in 2..4) return "$age года"
+    else if (age % 10 == 1) return "$age год"
+    else if (age % 10 in 2..4) return "$age года"
+    else if (age % 100 in 2..4) return "$age года"
     else return "$age лет"
 }
 
 /**
  * Простая
  *
- * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
+ *  Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
  * и t3 часов — со скоростью v3 км/час.
  * Определить, за какое время он одолел первую половину пути?
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val x1 = v1 * t1
+    val x2 = v2 * t2
+    val x3 = v3 * t3
+    val sd = (x1 + x2 + x3) / 2
+    if (sd <= x1) return sd / v1
+    if ((sd >= x1) && (sd <= x1 + x2))
+        return t1 + (sd - x1) / v2
+    else return t1 + t2 + (sd - x1 - x2) / v3
+}
+
 
 /**
  * Простая
