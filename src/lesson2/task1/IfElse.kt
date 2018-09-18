@@ -2,6 +2,9 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
+import kotlin.math.PI
+import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -91,10 +94,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
         sd <= x1 -> sd / v1
         (sd > x1) && (sd <= x1 + x2) -> t1 + (sd - x1) / v2
         else -> t1 + t2 + (sd - x1 - x2) / v3
-    /**  if (sd <= x1) return sd / v1
-    if ((sd >= x1) && (sd <= x1 + x2))
-    return t1 + (sd - x1) / v2
-    else return t1 + t2 + (sd - x1 - x2) / v3**/
+    /**
+     * if (sd <= x1) return sd / v1
+     * if ((sd >= x1) && (sd <= x1 + x2))
+     * return t1 + (sd - x1) / v2
+     * else return t1 + t2 + (sd - x1 - x2) / v3
+     */
     }
 
 }
@@ -135,7 +140,19 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((a > b + c) || (b > a + c) || (c > a + b))
+        return -1
+    else if ((sqr(a) == sqr(b) + sqr(c)) || (sqr(b) == sqr(a) + sqr(c)) || (sqr(c) == sqr(b) + sqr(a)))
+        return 1
+    else if (((sqr(a) - sqr(b) - sqr(c)) / 2 * b * c) > cos(PI / 2))
+        return 0
+    else if ((a == b) || (a == c) || (c == b))
+        return 0
+    else if ((((sqr(a) - sqr(b) - sqr(c)) / 2 * b * c) < cos(PI / 2)))
+        return 2
+    else return -1
+}
 
 /**
  * Средняя
