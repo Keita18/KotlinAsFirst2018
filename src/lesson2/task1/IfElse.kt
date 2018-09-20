@@ -3,10 +3,7 @@ package lesson2.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.max
-import kotlin.math.sqrt
+import kotlin.math.*
 
 /**
  * Пример
@@ -116,7 +113,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int = when {
+    (((kingX == rookX1) && (kingY == rookY2)) || ((kingY == rookY1) && (kingX == rookX2))) -> 3
+    ((kingX == rookX1) || (kingY == rookY1)) -> 1
+    ((kingX == rookX2) || (kingY == rookY2)) -> 2
+
+    else -> 0
+
+}
 
 /**
  * Простая
@@ -162,4 +166,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
+    ((a <= c) && (c <= b) && (b <= d)) -> abs(b - c)
+    ((a <= c) && (c <= d) && (d <= b)) -> abs(d - c)
+    ((c <= a) && (a <= b) && (b <= d)) -> abs(b - a)
+    ((c <= a) && (a <= d) && (d <= b)) -> abs(d - a)
+else -> -1
+}
