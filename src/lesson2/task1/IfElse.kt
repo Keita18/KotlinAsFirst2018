@@ -134,7 +134,21 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+
+
+    for (i in -7..7) {
+        if (((kingX == bishopX + i) && ((kingY == bishopY + i) || (kingY == bishopY - i)) && ((kingX == rookX) || (kingY == rookY))))
+            return 3
+        if (((kingX == bishopX + i) && ((kingY == bishopY + i) || (kingY == bishopY - i))) || ((kingX == bishopX - i) && ((kingY == bishopY + i) || (kingY == bishopY - i))))
+            return 2
+    }
+
+    if (((kingX == rookX) || (kingY == rookY)))
+        return 1
+    else return 0
+}
+
 
 /**
  * Простая
