@@ -5,6 +5,8 @@ import lesson1.task1.sqr
 import lesson4.task1.abs
 import java.time.Year
 import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -33,7 +35,15 @@ fun isNumberHappy(number: Int): Boolean = when {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
+    for (i in -7..7) {
+        if (((x1 == x2 + i) && ((y1 == y2 + i) || (y1 == y2 - i))) || ((x1 == x2 - i) && ((y1 == y2 - i) || (y1 == y2 + i))))
+            return true
+    }
+    if ((x1 == x2) || (y1 == y2))
+        return true
+    else return false
+}
 
 
 /**
@@ -58,9 +68,9 @@ fun daysInMonth(month: Int, year: Int): Int = when {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-if ((sqrt(sqr(x2 - x1) + sqr(y2 - y1))) + r1 <= r2)
-    return true
-else return false
+    if ((sqrt(sqr(x2 - x1) + sqr(y2 - y1))) + r1 <= r2)
+        return true
+    else return false
 }
 
 /**
@@ -72,4 +82,14 @@ else return false
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    if (minOf(r, s) >= minOf(a, b, c))
+        return when {
+            a == maxOf(a, b, c) && maxOf(r, s) >= maxOf(b,c) -> true
+            b == maxOf(a, b, c) && maxOf(r, s) >= maxOf(a,c) -> true
+            c == maxOf(a, b, c) && maxOf(r, s) >= maxOf(a,b) -> true
+            else -> false
+
+        }
+    else return false
+}

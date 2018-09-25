@@ -187,3 +187,4 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
     ((c <= a) && (a <= d) && (d <= b)) -> abs(d - a)
 else -> -1
 }
+/** (kingX == bishopX + i) && (kingY == bishopY + i) */
