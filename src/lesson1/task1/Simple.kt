@@ -1,8 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson1.task1
 import kotlin.math.*
-import lesson4.task1.abs
-import java.time.Year
 
 /**
  * Пример
@@ -76,7 +74,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = (sagenes
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (grad + (min / 60) + (sec / 3600)) * PI / 180
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (grad + min.toDouble() / 60 + sec.toDouble() / 3600) * PI / 180
 
 /**
  * Тривиальная
@@ -110,7 +108,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
+fun accountInThreeYears(initial: Int, percent: Int): Double = initial * (1 + 0.01 * percent).pow(3)
 /**
  * Простая
  *
