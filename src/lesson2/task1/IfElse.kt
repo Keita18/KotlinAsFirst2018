@@ -67,7 +67,7 @@ fun ageDescription(age: Int): String {
     else if (age in 2..4) return "$age года"
     else if (age in 10..20) return "$age лет"
     else if (age in 100..120) return "$age лет"
-    else if (age % 10 == 1) return "$age год"
+    else if (age % 10 == 1 || age % 100 == 1) return "$age год"
     else if (age % 10 in 2..4) return "$age года"
     else if (age % 100 in 2..4) return "$age года"
     else return "$age лет"
@@ -138,7 +138,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 
 
     for (i in -7..7) {
-        if (((kingX == bishopX + i) && ((kingY == bishopY + i) || (kingY == bishopY - i)) && ((kingX == rookX) || (kingY == rookY))))
+        if ((((kingX == bishopX + i) && ((kingY == bishopY + i) || (kingY == bishopY - i))) || ((kingX == bishopX - i) && ((kingY == bishopY + i) || (kingY == bishopY - i)))) && ((kingX == rookX) || (kingY == rookY)))
             return 3
         if (((kingX == bishopX + i) && ((kingY == bishopY + i) || (kingY == bishopY - i))) || ((kingX == bishopX - i) && ((kingY == bishopY + i) || (kingY == bishopY - i))))
             return 2
@@ -159,16 +159,22 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((a > b + c) || (b > a + c) || (c > a + b))
-        return -1
-    else if ((sqr(a) == sqr(b) + sqr(c)) || (sqr(b) == sqr(a) + sqr(c)) || (sqr(c) == sqr(b) + sqr(a)))
-        return 1
-    else if (((sqr(a) - sqr(b) - sqr(c)) / 2 * b * c) > cos(PI / 2))
+    if ((a < b + c) || (b < a + c) || (c < a + b))
+        return when {
+            abs(sqr(a) - sqr(b) - sqr(c)) / 2 * b * c == (PI / 2) -> 1
+            abs(sqr(a) - sqr(b) - sqr(c)) / 2 * b * c < (PI / 2) -> 0
+            abs(sqr(a) - sqr(b) - sqr(c)) / 2 * b * c > (PI / 2) -> 2
+            abs(sqr(b) - sqr(a) - sqr(c)) / 2 * b * c == (PI / 2) -> 1
+            abs(sqr(b) - sqr(a) - sqr(c)) / 2 * b * c < (PI / 2) -> 0
+            abs(sqr(b) - sqr(a) - sqr(c)) / 2 * b * c > (PI / 2) -> 2
+            abs(sqr(c) - sqr(b) - sqr(a)) / 2 * b * c == (PI / 2) -> 1
+            abs(sqr(c) - sqr(b) - sqr(a)) / 2 * b * c < (PI / 2) -> 0
+            abs(sqr(c) - sqr(b) - sqr(a)) / 2 * b * c > (PI / 2) -> 2
+            else -> 0
+
+        }
+    else if (a == b && b == c)
         return 0
-    else if ((a == b) || (a == c) || (c == b))
-        return 0
-    else if ((((sqr(a) - sqr(b) - sqr(c)) / 2 * b * c) < cos(PI / 2)))
-        return 2
     else return -1
 }
 
