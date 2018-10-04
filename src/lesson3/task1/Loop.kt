@@ -11,7 +11,7 @@ import kotlin.math.sqrt
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -38,7 +38,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -62,19 +62,39 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Тривиальная
  *
  * Найти количество цифр в заданном числе n.
- * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
+ * Например, число 1 содержит 1 цифр, 456 -- 3 цифры, 65536 -- 5 цифр.
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
-
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var nombre = n
+    do {
+        if (nombre % 10 >= 0) {
+            count++
+        }
+        nombre /= 10
+    } while (nombre > 0)
+    return count
+}
 /**
  * Простая
  *
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var fib1 = 1
+    var fib2 = 1
+    for (i in 2..n) {
+
+        val sum = fib1 + fib2
+        fib1 = fib2
+        fib2 = sum
+
+    }
+    return fib1
+}
 
 /**
  * Простая
@@ -82,21 +102,49 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var k = 0
+    if (n == m) return m
+    for (i in 1..m * n) {
+        if (i % n == 0 && i % m == 0)
+            break
+        k = i + 1
+    }
+    return k
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var sum = 1
+    for (i in 2..n) {
+
+        if (n % i == 0)
+            break
+        sum = i + 1
+
+    }
+    return sum
+
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var sum = n
+    for (k in sum - 1 downTo 1) {
+        if (n % k == 0)
+            break
+        sum = k - 1
+    }
+    return sum
+}
 
 /**
  * Простая

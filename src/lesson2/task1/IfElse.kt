@@ -159,23 +159,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((a < b + c) || (b < a + c) || (c < a + b))
-        return when {
-            abs(sqr(a) - sqr(b) - sqr(c)) / 2 * b * c == (PI / 2) -> 1
-            abs(sqr(a) - sqr(b) - sqr(c)) / 2 * b * c < (PI / 2) -> 0
-            abs(sqr(a) - sqr(b) - sqr(c)) / 2 * b * c > (PI / 2) -> 2
-            abs(sqr(b) - sqr(a) - sqr(c)) / 2 * b * c == (PI / 2) -> 1
-            abs(sqr(b) - sqr(a) - sqr(c)) / 2 * b * c < (PI / 2) -> 0
-            abs(sqr(b) - sqr(a) - sqr(c)) / 2 * b * c > (PI / 2) -> 2
-            abs(sqr(c) - sqr(b) - sqr(a)) / 2 * b * c == (PI / 2) -> 1
-            abs(sqr(c) - sqr(b) - sqr(a)) / 2 * b * c < (PI / 2) -> 0
-            abs(sqr(c) - sqr(b) - sqr(a)) / 2 * b * c > (PI / 2) -> 2
-            else -> 0
-
-        }
-    else if (a == b && b == c)
-        return 0
-    else return -1
+    if (c > a + b || b > a + c || a > b + c)
+        return -1
+    else return when {
+        a == sqrt(sqr(b) + sqr(c)) || b == sqrt(sqr(a) + sqr(c)) || c == sqrt(sqr(b) + sqr(a)) -> 1
+        a > sqrt(sqr(b) + sqr(c)) || b > sqrt(sqr(a) + sqr(c)) || c > sqrt(sqr(b) + sqr(a)) -> 2
+        else -> 0
+    }
 }
 
 /**
