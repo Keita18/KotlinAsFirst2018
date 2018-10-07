@@ -57,7 +57,7 @@ fun main(args: Array<String>) {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int = (hours*3600 + minutes*60 + seconds)
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int = (hours * 3600 + minutes * 60 + seconds)
 
 /**
  * Тривиальная
@@ -66,7 +66,8 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = (hours*3600 + minutes
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = (sagenes * 48 + arshins * 16 + vershoks) * 4.445 / 100
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
+        (sagenes * 48 + arshins * 16 + vershoks) * 4.445 / 100
 
 /**
  * Тривиальная
@@ -74,7 +75,8 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = (sagenes
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (grad + min.toDouble() / 60 + sec.toDouble() / 3600) * PI / 180
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double =
+        (grad + min.toDouble() / 60 + sec.toDouble() / 3600) * PI / 180
 
 /**
  * Тривиальная
@@ -99,7 +101,8 @@ fun thirdDigit(number: Int): Int = ((number / 100) % 10)
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = ((hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 + minutesDepart))
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
+        (hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 + minutesDepart)
 
 /**
  * Простая
