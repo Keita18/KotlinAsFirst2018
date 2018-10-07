@@ -295,6 +295,7 @@ fun squareSequenceDigit(n: Int): Int {
     }
     return z / 10.toDouble().pow(s - n).toInt() % 10
 }
+
 /**
  * Сложная
  *
