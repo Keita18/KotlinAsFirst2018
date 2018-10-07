@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -63,14 +64,16 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if (age == 1) return "$age год"
-    else if (age in 2..4) return "$age года"
-    else if (age in 10..20) return "$age лет"
-    else if (age in 110..120) return "$age лет"
-    else if (age % 10 == 1 || age % 100 == 1) return "$age год"
-    else if (age % 10 in 2..4) return "$age года"
-    else if (age % 100 in 2..4) return "$age года"
-    else return "$age лет"
+    return when {
+        age == 1 -> "$age год"
+        age in 2..4 -> "$age года"
+        age in 10..20 -> "$age лет"
+        age in 110..120 -> "$age лет"
+        age % 10 == 1 || age % 100 == 1 -> "$age год"
+        age % 10 in 2..4 -> "$age года"
+        age % 100 in 2..4 -> "$age года"
+        else -> "$age лет"
+    }
 }
 
 /**
@@ -91,12 +94,6 @@ fun timeForHalfWay(t1: Double, v1: Double,
         sd <= x1 -> sd / v1
         (sd > x1) && (sd <= x1 + x2) -> t1 + (sd - x1) / v2
         else -> t1 + t2 + (sd - x1 - x2) / v3
-    /**
-     * if (sd <= x1) return sd / v1
-     * if ((sd >= x1) && (sd <= x1 + x2))
-     * return t1 + (sd - x1) / v2
-     * else return t1 + t2 + (sd - x1 - x2) / v3
-     */
     }
 
 }
@@ -138,15 +135,19 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 
 
     for (i in -7..7) {
-        if ((((kingX == bishopX + i) && ((kingY == bishopY + i) || (kingY == bishopY - i))) || ((kingX == bishopX - i) && ((kingY == bishopY + i) || (kingY == bishopY - i)))) && ((kingX == rookX) || (kingY == rookY)))
+        if ((((kingX == bishopX + i) &&
+                        ((kingY == bishopY + i) || (kingY == bishopY - i))) || ((kingX == bishopX - i) &&
+                        ((kingY == bishopY + i) || (kingY == bishopY - i)))) && ((kingX == rookX) || (kingY == rookY)))
             return 3
-        if (((kingX == bishopX + i) && ((kingY == bishopY + i) || (kingY == bishopY - i))) || ((kingX == bishopX - i) && ((kingY == bishopY + i) || (kingY == bishopY - i))))
+        if (((kingX == bishopX + i) &&
+                        ((kingY == bishopY + i) || (kingY == bishopY - i))) ||
+                ((kingX == bishopX - i) && ((kingY == bishopY + i) || (kingY == bishopY - i))))
             return 2
     }
 
-    if (((kingX == rookX) || (kingY == rookY)))
-        return 1
-    else return 0
+    return if (((kingX == rookX) || (kingY == rookY)))
+        1
+    else 0
 }
 
 
@@ -159,11 +160,14 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if (c > a + b || b > a + c || a > b + c)
-        return -1
-    else return when {
-        a == sqrt(sqr(b) + sqr(c)) || b == sqrt(sqr(a) + sqr(c)) || c == sqrt(sqr(b) + sqr(a)) -> 1
-        a > sqrt(sqr(b) + sqr(c)) || b > sqrt(sqr(a) + sqr(c)) || c > sqrt(sqr(b) + sqr(a)) -> 2
+    val x1 = sqrt(sqr(a) + sqr(b))
+    val x2 = sqrt(sqr(a) + sqr(c))
+    val x3 = sqrt(sqr(b) + sqr(c))
+    return if (c > a + b || b > a + c || a > b + c)
+        -1
+    else when {
+        a == x3 || b == x2 || c == x1 -> 1
+        a > x3 || b > x2 || c > x1 -> 2
         else -> 0
     }
 }
@@ -181,6 +185,6 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
     ((a <= c) && (c <= d) && (d <= b)) -> abs(d - c)
     ((c <= a) && (a <= b) && (b <= d)) -> abs(b - a)
     ((c <= a) && (a <= d) && (d <= b)) -> abs(d - a)
-else -> -1
+    else -> -1
 }
 // ifElse resolved
