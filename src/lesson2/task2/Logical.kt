@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task2
 
 import lesson1.task1.sqr
@@ -37,12 +38,11 @@ fun isNumberHappy(number: Int): Boolean = when {
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     for (i in -7..7) {
-        if (((x1 == x2 + i) && ((y1 == y2 + i) || (y1 == y2 - i))) || ((x1 == x2 - i) && ((y1 == y2 - i) || (y1 == y2 + i))))
+        if (((x1 == x2 + i) && ((y1 == y2 + i) || (y1 == y2 - i))) ||
+                ((x1 == x2 - i) && ((y1 == y2 - i) || (y1 == y2 + i))))
             return true
     }
-    if ((x1 == x2) || (y1 == y2))
-        return true
-    else return false
+    return (x1 == x2) || (y1 == y2)
 }
 
 
@@ -52,12 +52,16 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int = when {
-    month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12 -> 31
-    month == 4 || month == 6 || month == 9 || month == 11 -> 30
-    (year % 400 == 0) || (year % 4 == 0) && (year % 100 != 0) -> 29
-    else -> 28
+fun daysInMonth(month: Int, year: Int): Int = when (month) {
+    1, 3, 5, 7, 8, 10, 12 -> 31
+    4, 6, 9, 11 -> 30
+    else -> {
+        if ((year % 400 == 0) || (year % 4 == 0) && (year % 100 != 0)) 29
+        else 28
+    }
+
 }
+
 /**
  *
  *
@@ -66,11 +70,7 @@ fun daysInMonth(month: Int, year: Int): Int = when {
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean {
-    if ((sqrt(sqr(x2 - x1) + sqr(y2 - y1))) + r1 <= r2)
-        return true
-    else return false
-}
+                 x2: Double, y2: Double, r2: Double): Boolean = (sqrt(sqr(x2 - x1) + sqr(y2 - y1))) + r1 <= r2
 
 /**
  * Средняя
@@ -82,14 +82,14 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if (minOf(r, s) >= minOf(a, b, c))
-        return when {
-            a == maxOf(a, b, c) && maxOf(r, s) >= maxOf(b,c) -> true
-            b == maxOf(a, b, c) && maxOf(r, s) >= maxOf(a,c) -> true
-            c == maxOf(a, b, c) && maxOf(r, s) >= maxOf(a,b) -> true
+    return if (minOf(r, s) >= minOf(a, b, c))
+        when {
+            a == maxOf(a, b, c) && maxOf(r, s) >= maxOf(b, c) -> true
+            b == maxOf(a, b, c) && maxOf(r, s) >= maxOf(a, c) -> true
+            c == maxOf(a, b, c) && maxOf(r, s) >= maxOf(a, b) -> true
             else -> false
 
         }
-    else return false
+    else false
 }
 /** logical resolved **/
