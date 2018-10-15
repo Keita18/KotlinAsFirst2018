@@ -149,8 +149,8 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    if (n < 2 && m < 2) return false
-    for (k in 2..sqrt(n.toDouble()).toInt() * sqrt(m.toDouble()).toInt()) {
+    if ((n < 2 && m < 2) || (n % 2 == 0 && m % 2 == 0)) return false
+    for (k in 3..sqrt(n.toDouble()).toInt() * sqrt(m.toDouble()).toInt() step 2) {
         if (m % k == 0 && n % k == 0)
             return false
     }
@@ -185,25 +185,22 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = ceil(sqrt(m.toDouble())).toIn
 fun collatzSteps(x: Int): Int {
     var etape: Int
     var xx = x
-    var nbaEta1 = 0
-    var nerta2 = 0
-    val colS: Int
+    var colS = 0
     if (x == 1)
         return 0
     else
         do {
             if (xx % 2 == 0) {
                 etape = xx / 2
-                nbaEta1++
+                colS++
             } else {
                 etape = 3 * xx + 1
-                nerta2++
+                colS++
             }
-
             xx = etape
 
         } while (xx > 1)
-    colS = nbaEta1 + nerta2
+
     return colS
 }
 
