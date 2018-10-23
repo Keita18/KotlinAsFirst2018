@@ -106,14 +106,23 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    if (n == m) return m
-    for (i in 1..m * n) {
-        if (i % n == 0 && i % m == 0) return i
-    }
-    return n * m
+    val min = min(m, n)
+    var lcm = max(m, n)
+    while (lcm % min != 0)
+        lcm += max(m, n)
+
+    return lcm
 }
 
 /**
+ *fun lcm(m: Int, n: Int): Int {
+val max = max(m, n)
+if (n == m) return m
+for (i in max..m * n) {
+if (i % n == 0 && i % m == 0) return i
+}
+return n * m
+}
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
@@ -149,12 +158,14 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    if ((n < 2 && m < 2) || (n % 2 == 0 && m % 2 == 0)) return false
-    for (k in 3..sqrt(n.toDouble()).toInt() * sqrt(m.toDouble()).toInt() step 2) {
-        if (m % k == 0 && n % k == 0)
+    val smaller = min(m, n)
+    val bigger = max(m, n)
+
+    for (i in 2..sqrt(smaller.toDouble()).toInt())
+        if (m % i == 0 && n % i == 0)
             return false
-    }
-    return true
+
+    return bigger % smaller != 0 || smaller == 1
 }
 
 /**
