@@ -127,7 +127,7 @@ fun abs(v: List<Double>): Double = sqrt(v.fold(0.0) { prev, that ->
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else (list.sum() / (list.size))
+fun mean(list: List<Double>): Double = if (!list.isEmpty()) (list.sum() / (list.size)) else 0.0
 
 /**
  * Средняя
@@ -143,10 +143,6 @@ fun center(list: MutableList<Double>): MutableList<Double> {
         list[i] = list[i] - f
     return list
 }
-// for ((index, element) in list.withIndex()) {
-//        list[index] = element - f
-//    }
-//    return list
 
 
 /**
@@ -175,7 +171,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
 fun polynom(p: List<Double>, x: Double): Double {
     var result = 0.0
     var y = 1.0
-    for (element in p) {
+    p.forEach { element ->
         result += element * y
         y *= x
     }
@@ -214,10 +210,10 @@ fun factorize(n: Int): List<Int> {
     var d = 2
     val list = mutableListOf<Int>()
     while (element >= d) {
-        if (element % d == 0) {
+        if (element % d != 0) d++ else {
             list.add(d)
             element /= d
-        } else d++
+        }
     }
     return list
 }
@@ -330,17 +326,18 @@ fun roman(n: Int): String {
     var z: Int
     val list = mutableListOf<String>()
     val list1 = mutableListOf<String>()
-    if (x / 1000 < 4) {
+    while (x / 1000 < 4 && x > 0) {
         for (i in 0 until digitNumber(x)) {
             z = (x % 10) * (10.toDouble().pow(i).toInt())
             x /= 10
             list.add(intoRoman(z))
         }
-    } else if (x / 1000 > 0) {
+    }
+    while (x / 1000 > 4) {
         for (i in 0 until digitNumber(n) step 3) {
             z = x % 1000
-            list.add(roman(z))
             x /= 1000
+            list.add(roman(z))
         }
     }
     for (element in list) {
@@ -359,10 +356,10 @@ fun intoRoman(n: Int): String {
         n == 50 -> "L"
         n == 90 -> "XC"
         n in 100..399 step 100 -> ("C").repeat(n / 100)
-        else -> when {
-            n < 9 -> "V" + intoRoman(n - 5)
-            n in 51..99 -> "L" + intoRoman(n - 50)
-            n in 600..999 -> "D" + intoRoman(n - 500)
+        else -> when (n) {
+            in 6..8 -> "V" + intoRoman(n - 5)
+            in 60..90 step 10 -> "L" + intoRoman(n - 50)
+            in 600..900 step 100 -> "D" + intoRoman(n - 500)
             else -> ""
         }
     }

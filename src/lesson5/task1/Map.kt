@@ -104,11 +104,10 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
         for ((name1, phone1) in mapB) {
             if (name1 !in mapA) result[name1] = phone1
             if (name == name1 && phone == phone1) result[name] = phone
-            if (name == name1 && phone !== phone1) {
-                list.add(phone)
-                list.add(phone1)
-                result[name] = list.joinToString(separator = ", ")
-            }
+            if (name != name1 || phone == phone1) continue
+            list.add(phone)
+            list.add(phone1)
+            result[name] = list.joinToString(separator = ", ")
         }
 
     }
@@ -161,8 +160,8 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
     val result = mutableMapOf<String, MutableList<Double>>()
     val answ = mutableMapOf<String, Double>()
     stockPrices.forEach { (K, V) ->
-        if (result[K] != null) result[K]!!.add(V)
-        else result[K] = mutableListOf(V)
+
+        if (result[K] == null) result[K] = mutableListOf(V) else result[K]!!.add(V)
     }
     for ((key, value) in result) {
         answ[key] = value.sum() / value.size
@@ -191,9 +190,9 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
     var res: String? = null
 
     stuff.values.forEach { (key2, value2) ->
-        if (result[key2] != null) {
+        if (result[key2] == null) result[key2] = mutableListOf(value2) else {
             result[key2]!!.add(value2)
-        } else result[key2] = mutableListOf(value2)
+        }
 
         result.forEach { (_, value1) ->
             stuff.forEach { (key, _) ->
@@ -285,8 +284,10 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
         if (ans[index] != null) ans[index]!!.add(element)
         else ans[index] = mutableListOf(element)
     }
-    for ((key, value) in ans)
-        if (value.size > 1) res[key] = value.size
+    for ((key, value) in ans) {
+        if (value.size <= 1) continue
+        res[key] = value.size
+    }
     return res
 }
 
@@ -302,8 +303,11 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
 fun hasAnagrams(words: List<String>): Boolean {
     val res = words.map { it.reversed() }
     for (i in 0 until words.size)
-        for (j in i + 1 until res.size)
-            if (words[i] == res[j]) return true
+        for (j in i + 1 until res.size) {
+            if (words[i] == res[j]) {
+                return true
+            }
+        }
     return false
 }
 
