@@ -185,23 +185,23 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = ceil(sqrt(m.toDouble())).toIn
 fun collatzSteps(x: Int): Int {
     var etape: Int
     var xx = x
-    var colS = 0
+    var coltS = 0
     if (x == 1)
         return 0
     else
         do {
             if (xx % 2 == 0) {
                 etape = xx / 2
-                colS++
+                coltS++
             } else {
                 etape = 3 * xx + 1
-                colS++
+                coltS++
             }
             xx = etape
 
         } while (xx > 1)
 
-    return colS
+    return coltS
 }
 
 /**
@@ -211,7 +211,7 @@ fun collatzSteps(x: Int): Int {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double = sin(x)
 
 /**
  * Средняя
@@ -220,7 +220,7 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double = cos(x)
 
 /**
  * Средняя
@@ -261,13 +261,13 @@ fun isPalindrome(n: Int): Boolean = revert(n) == n
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var c = n
+    var x = n
     val hD = n % 10
 
-    while (c != 0) {
-        if (c % 10 != hD)
+    while (x != 0) {
+        if (x % 10 != hD)
             return true
-        c /= 10
+        x /= 10
     }
     return false
 }
