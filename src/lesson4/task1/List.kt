@@ -323,47 +323,28 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var x = n
-    var z: Int
-    val list = mutableListOf<String>()
-    val list1 = mutableListOf<String>()
-    while (x / 1000 < 4 && x > 0) {
-        for (i in 0 until digitNumber(x)) {
-            z = (x % 10) * (10.toDouble().pow(i).toInt())
-            x /= 10
-            list.add(intoRoman(z))
-        }
-    }
-    while (x / 1000 > 4) {
-        for (i in 0 until digitNumber(n) step 3) {
-            z = x % 1000
-            x /= 1000
-            list.add(roman(z))
-        }
-    }
-    for (element in list) {
-        list1.add(element.reversed())
-    }
-    return list1.joinToString("").reversed()
-}
+    val arabianNumber = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    val romanNumber = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
 
-fun intoRoman(n: Int): String {
-    return when {
-        n < 4 -> ("I").repeat(n); n == 400 -> "CD"
-        n == 4 -> "IV"; n == 500 -> "D"
-        n == 5 -> "V"; n == 900 -> "CM"
-        n in 10..39 step 10 -> ("X").repeat(n / 10); n in 1000..3999 step 1000 -> ("M").repeat(n / 1000)
-        n == 40 -> "XL"; n == 9 -> "IX"
-        n == 50 -> "L"
-        n == 90 -> "XC"
-        n in 100..399 step 100 -> ("C").repeat(n / 100)
-        else -> when (n) {
-            in 6..8 -> "V" + intoRoman(n - 5)
-            in 60..90 step 10 -> "L" + intoRoman(n - 50)
-            in 600..900 step 100 -> "D" + intoRoman(n - 500)
-            else -> ""
+    var number = n
+    var str = ""
+    var i = 0
+
+    while (number > 0) {
+        if (number / 1000 < 4) {
+            while (arabianNumber[i] > number) {
+                i++
+            }
+            str += romanNumber[i]
+            number -= arabianNumber[i]
         }
+        if (number / 1000 >= 4) {
+            str += roman(number / 1000)
+        }
+        number %= 1000
     }
+
+    return str
 }
 
 /**
@@ -373,4 +354,37 @@ fun intoRoman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+
+
+fun russian(n: Int): String {
+    var result = ""
+    var answer = ""
+    var x = n
+    var a = x / 100 % 10
+    var b = x % 100
+    result += hundreds[a] + if (b in 11..19) dozens[b % 10] else tens[x / 10 % 10] + unit[x % 10]
+
+    x /= 1000
+    if (x > 0) {
+        a = x / 100 % 10
+        b = x % 100
+        answer += hundreds[a] + (if (b in 11..19) dozens[b % 10] else tens[x / 10 % 10] + unitOfThous[x % 10]) +
+                when {
+                    x % 10 == 1 && b != 11 -> "тысяча "
+                    x % 10 in 2..4 && b !in 12..14 -> "тысячи "
+                    else -> "тысяч "
+                }
+    }
+
+    return answer + result
+
+}
+
+val unit = listOf("", "один ", "два ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ", "")
+val unitOfThous = listOf("", "одна ", "две ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ")
+val dozens = listOf("", "одиннадцать ", "двенадцать ", "тринадцать ", "четырнадцать ", "пятнадцать ", "шестнадцать ", "семнадцать ",
+        "восемнадцать ", "девятнадцать ", "")
+val tens = listOf("", "десять ", "двадцать ", "тринадцать ", "сорок ", "пятьдесят ", "шестьдесят ", "семьдесят ", "восемьдесят ",
+        "девяносто", "")
+val hundreds = listOf("", "сто ", "двести ", "триста ", "четыреста ", "пятьсот ", "шестьсот ", "семьсот ", "восемьсот ", "девятьсот ", "")
+

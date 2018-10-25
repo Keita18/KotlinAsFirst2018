@@ -251,7 +251,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Boolean =
  *
  * Для двух списков людей найти людей, встречающихся в обоих списках
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.filter { it in b }.toSet().toList()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.filter { it in b }.toList()
 
 /**
  * Средняя
@@ -303,8 +303,8 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
 fun hasAnagrams(words: List<String>): Boolean {
     val res = words.map { it.reversed() }
     for (i in 0 until words.size)
-        for (j in i + 1 until res.size - 1) {
-            if (words[i] == res[j]) {
+        for (j in i + 1 until res.size) {
+            if (res[j] in words[i]) {
                 return true
             }
         }
