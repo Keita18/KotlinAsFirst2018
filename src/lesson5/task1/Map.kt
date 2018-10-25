@@ -2,6 +2,7 @@
 
 package lesson5.task1
 
+import lesson4.task1.russian
 import kotlin.math.sign
 
 /**
@@ -97,21 +98,16 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val list = mutableListOf<String>()
-    val result = mutableMapOf<String, String>()
-    for ((name, phone) in mapA) {
-        if (name !in mapB) result[name] = phone
-        for ((name1, phone1) in mapB) {
-            if (name1 !in mapA) result[name1] = phone1
-            if (name == name1 && phone == phone1) result[name] = phone
-            if (name != name1 || phone == phone1) continue
-            list.add(phone)
-            list.add(phone1)
-            result[name] = list.joinToString(separator = ", ")
-        }
+    val list = mutableMapOf<String, String>()
+    val result = mutableMapOf<String, MutableList<String>>()
+    for ((V, K) in mapA)
+        if (result[V] != null) result[V]!!.add(K) else result[V] = mutableListOf(K)
 
-    }
-    return result
+    for ((V, K) in mapB)
+        if (result[V] != null) result[V]!!.add(K) else result[V] = mutableListOf(K)
+
+    for ((K, V) in result) list[K] = V.toString()
+    return list
 }
 
 /**
@@ -188,17 +184,15 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
     val result = mutableMapOf<String, MutableList<Double>>()
     var res: String? = null
-
+    var a: Double? = 0.0
     stuff.values.forEach { (key2, value2) ->
         if (result[key2] == null) result[key2] = mutableListOf(value2) else {
             result[key2]!!.add(value2)
+            a = result[key2]?.min()
         }
-
-        result.forEach { (_, value1) ->
-            stuff.forEach { (key, _) ->
-                if (kind == key2 && stuff[key] == (key2 to value1.min())) res = key
-            }
-        }
+    }
+    stuff.forEach { (key, _) ->
+        if (stuff[key] == (kind to a)) res = key
     }
     return res
 }
@@ -263,7 +257,7 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.filter { it
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean = word.toLowerCase()
-        .all { chars.toString().toLowerCase().contains(it) }
+        .all { chars.map { it.toLowerCase() }.contains(it) }
 
 /**
  * Средняя
@@ -361,4 +355,3 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
-
