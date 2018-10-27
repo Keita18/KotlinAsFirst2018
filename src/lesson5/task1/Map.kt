@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
+@file: Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
 
 package lesson5.task1
 
@@ -100,13 +100,14 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
     val list = mutableMapOf<String, String>()
     val result = mutableMapOf<String, MutableList<String>>()
+    list.putAll(mapA)
     for ((V, K) in mapA)
         if (result[V] != null) result[V]!!.add(K) else result[V] = mutableListOf(K)
 
     for ((V, K) in mapB)
         if (result[V] != null) result[V]!!.add(K) else result[V] = mutableListOf(K)
 
-    for ((K, V) in result) list[K] = V.toString()
+    for ((K, V) in result) list[K] = V.toSet().toString().filter { it != ']' && it != '[' }
     return list
 }
 
@@ -354,4 +355,50 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+
+fun bagPacking(treasures1: Map<String, Pair<Int, Int>>, capacity1: Int): Set<String> {
+    val list1 = arrayListOf<Int>()
+    val list2 = mutableListOf<Int>()
+    var res = setOf<String>()
+    var a: Int
+    var capa = capacity1
+    var wwi = mutableMapOf<String, Pair<Int, Int>>()
+    wwi.putAll(treasures1)
+    val o: MutableList<Int>
+    val f: MutableList<Int>
+
+    for ((weight, price) in wwi.values) {
+        if (capacity1 >= weight)
+            list1.add(price); list2.add(weight)
+    }
+    o = list1.sortedByDescending { it }.toMutableList()
+    f = list2
+    while (capa > 0 && o.isNotEmpty() && f.isNotEmpty()) {
+        a = o.first()
+        var b = a
+        for ((key, value) in wwi)
+            for (element in f) {
+                if (value == (element to a) && capa >= element) {
+                    b = element
+                    if (b != 0) res += setOf(key)
+
+                }
+            }
+        wwi = (wwi - res).toMutableMap()
+        o.removeAt(0)
+        f.remove(b)
+        capa -= b
+
+    }
+    return res
+}
+
+/*    val a = mergePhoneBooks(
+            mapOf("Emergency" to "112", "Fire department" to "01", "polina" to "1000"),
+            mapOf("Emergency" to "911", "Police" to "02", "polina" to "20"))
+    println(a)
+    val b = findCheapestStuff(
+            mapOf("Мария" to ("печенье" to 20.0), "Орео" to ("печенье" to 100.0), "Мари" to ("печенье" to 10.0), "Мария" to ("печенье" to 1.0)),
+            "печенье"
+    )
+    println(b) */
