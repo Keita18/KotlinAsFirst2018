@@ -3,6 +3,7 @@
 package lesson3.task1
 
 import com.sun.org.apache.xerces.internal.impl.xpath.XPath
+import lesson1.task1.sqr
 import kotlin.math.*
 
 /**
@@ -222,7 +223,20 @@ fun collatzSteps(x: Int): Int {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = sin(x)
+fun sin(x: Double, eps: Double): Double {
+    val xX = x % (2 * PI)
+    var sum = 0.0
+    var n = 3
+    var dxXx = xX
+    while (abs(dxXx) >= abs(eps)) {
+
+        sum += dxXx
+        dxXx *= -1 * sqr(xX) / ((n - 1) * n)
+
+        n += 2
+    }
+    return sum
+}
 
 /**
  * Средняя

@@ -2,9 +2,6 @@
 
 package lesson5.task1
 
-import lesson4.task1.russian
-import kotlin.math.sign
-
 /**
  * Пример
  *
@@ -98,17 +95,10 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val list = mutableMapOf<String, String>()
-    val result = mutableMapOf<String, MutableList<String>>()
-    list.putAll(mapA)
-    for ((V, K) in mapA)
-        if (result[V] != null) result[V]!!.add(K) else result[V] = mutableListOf(K)
-
-    for ((V, K) in mapB)
-        if (result[V] != null) result[V]!!.add(K) else result[V] = mutableListOf(K)
-
-    for ((K, V) in result) list[K] = V.toSet().toString().filter { it != ']' && it != '[' }
-    return list
+    return (mapB.entries + mapA.entries)
+            .groupBy { it.key }.mapValues { (_, phone) ->
+                phone.joinToString(", ") { it.value }
+            }
 }
 
 /**
@@ -183,20 +173,15 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *   ) -> "Мария"
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
-    val result = mutableMapOf<String, MutableList<Double>>()
     var res: String? = null
-    var a: Double? = 0.0
-    stuff.values.forEach { (key2, value2) ->
-        if (result[key2] == null) result[key2] = mutableListOf(value2) else {
-            result[key2]!!.add(value2)
-            a = result[key2]?.min()
-        }
-    }
+    val b = stuff.map { (_, v) -> v.second }.minBy { it }
+
     stuff.forEach { (key, _) ->
-        if (stuff[key] == (kind to a)) res = key
+        if (stuff[key] == (kind to b)) res = key
     }
     return res
 }
+
 
 /**
  * Сложная
@@ -357,48 +342,28 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  */
 
 fun bagPacking(treasures1: Map<String, Pair<Int, Int>>, capacity1: Int): Set<String> {
-    val list1 = arrayListOf<Int>()
-    val list2 = mutableListOf<Int>()
-    var res = setOf<String>()
-    var a: Int
+    var b = treasures1.values.filter { (k, _) -> k <= capacity1 }.sortedByDescending { it.second }
+    var f: Pair<Int, Int>?
     var capa = capacity1
-    var wwi = mutableMapOf<String, Pair<Int, Int>>()
-    wwi.putAll(treasures1)
-    val o: MutableList<Int>
-    val f: MutableList<Int>
+    var res = setOf<String>()
+    while (capa > 0 && b.isNotEmpty()) {
+        f = b.maxBy { it.second }
 
-    for ((weight, price) in wwi.values) {
-        if (capacity1 >= weight)
-            list1.add(price); list2.add(weight)
-    }
-    o = list1.sortedByDescending { it }.toMutableList()
-    f = list2
-    while (capa > 0 && o.isNotEmpty() && f.isNotEmpty()) {
-        a = o.first()
-        var b = a
-        for ((key, value) in wwi)
-            for (element in f) {
-                if (value == (element to a) && capa >= element) {
-                    b = element
-                    if (b != 0) res += setOf(key)
+        val e = f!!.first
+        val j = f.second
+        println(e)
+        for ((k, v) in treasures1)
+            if (v == e to j && capa >= e) {
+                res += k
+                capa -= e
 
-                }
             }
-        wwi = (wwi - res).toMutableMap()
-        o.removeAt(0)
-        f.remove(b)
-        capa -= b
 
+        b -= f
     }
+
     return res
 }
 
-/*    val a = mergePhoneBooks(
-            mapOf("Emergency" to "112", "Fire department" to "01", "polina" to "1000"),
-            mapOf("Emergency" to "911", "Police" to "02", "polina" to "20"))
-    println(a)
-    val b = findCheapestStuff(
-            mapOf("Мария" to ("печенье" to 20.0), "Орео" to ("печенье" to 100.0), "Мари" to ("печенье" to 10.0), "Мария" to ("печенье" to 1.0)),
-            "печенье"
-    )
-    println(b) */
+
+
