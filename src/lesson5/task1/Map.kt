@@ -95,7 +95,7 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    return (mapB.entries + mapA.entries)
+    return (mapA.entries + mapB.entries)
             .groupBy { it.key }.mapValues { (_, phone) ->
                 phone.joinToString(", ") { it.value }
             }
@@ -172,15 +172,10 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
-    var res: String? = null
-    val b = stuff.map { (_, v) -> v.second }.minBy { it }
-
-    stuff.forEach { (key, _) ->
-        if (stuff[key] == (kind to b)) res = key
-    }
-    return res
-}
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = stuff
+        .filter { (_, data) -> data.first == kind }
+        .maxBy { (_, data) -> data.second }
+        ?.component1()
 
 
 /**
@@ -351,7 +346,6 @@ fun bagPacking(treasures1: Map<String, Pair<Int, Int>>, capacity1: Int): Set<Str
 
         val e = f!!.first
         val j = f.second
-        println(e)
         for ((k, v) in treasures1)
             if (v == e to j && capa >= e) {
                 res += k
@@ -365,5 +359,30 @@ fun bagPacking(treasures1: Map<String, Pair<Int, Int>>, capacity1: Int): Set<Str
     return res
 }
 
+/*    val a = mergePhoneBooks(
+            mapOf("Emergency" to "112", "Fire department" to "01", "polina" to "1000"),
+            mapOf("Emergency" to "911", "Police" to "02", "polina" to "20"))
+    println(a)
+    val b = findCheapestStuff(
+            mapOf("Мария" to ("печенье" to 20.0), "Орео" to ("печенье" to 100.0), "Мари" to ("печенье" to 10.0), "Мария" to ("печенье" to 1.0)),
+            "печенье"
+    )
+    println(b)
 
+
+
+     fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+    val list = mutableMapOf<String, String>()
+    val result = mutableMapOf<String, MutableList<String>>()
+    list.putAll(mapA)
+    for ((V, K) in mapA)
+        if (result[V] != null) result[V]!!.add(K) else result[V] = mutableListOf(K)
+
+    for ((V, K) in mapB)
+        if (result[V] != null) result[V]!!.add(K) else result[V] = mutableListOf(K)
+
+    for ((K, V) in result) list[K] = V.toSet().toString().filter { it != ']' && it != '[' }
+    return list
+}
+     */
 
