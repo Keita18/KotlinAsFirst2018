@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class Tests {
     @Test
     @Tag("Example")
-    fun timeStrToSeconds() {
+    fun timeStrToSeconds () {
         assertEquals(36000, timeStrToSeconds("10:00:00"))
         assertEquals(41685, timeStrToSeconds("11:34:45"))
         assertEquals(86399, timeStrToSeconds("23:59:59"))
