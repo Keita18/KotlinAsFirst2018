@@ -116,14 +116,6 @@ fun lcm(m: Int, n: Int): Int {
 }
 
 /**
- *fun lcm(m: Int, n: Int): Int {
-val max = max(m, n)
-if (n == m) return m
-for (i in max..m * n) {
-if (i % n == 0 && i % m == 0) return i
-}
-return n * m
-}
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
@@ -143,13 +135,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    for (k in n / 2 downTo 2) {
-        if (n % k == 0)
-            return k
-    }
-    return 1
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -245,7 +231,20 @@ fun sin(x: Double, eps: Double): Double {
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = cos(x)
+fun cos(x: Double, eps: Double): Double {
+    val xX = x % (2 * PI)
+    var sum = 0.0
+    var n = 2
+    var dxXx = 1.0
+    while (abs(dxXx) >= abs(eps)) {
+
+        sum += dxXx
+        dxXx *= -1 * sqr(xX) / ((n - 1) * n)
+
+        n += 2
+    }
+    return sum
+}
 
 /**
  * Средняя

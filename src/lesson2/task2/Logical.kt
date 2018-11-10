@@ -36,14 +36,8 @@ fun isNumberHappy(number: Int): Boolean = when {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    for (i in -7..7) {
-        if (((x1 == x2 + i) && ((y1 == y2 + i) || (y1 == y2 - i))) ||
-                ((x1 == x2 - i) && ((y1 == y2 - i) || (y1 == y2 + i))))
-            return true
-    }
-    return (x1 == x2) || (y1 == y2)
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int) = abs(y1 - y2) == abs(x1 - x2)
+        || (x1 == x2) || (y1 == y2)
 
 
 /**

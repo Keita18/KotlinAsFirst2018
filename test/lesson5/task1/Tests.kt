@@ -291,6 +291,19 @@ class Tests {
         assertFalse(hasAnagrams(emptyList()))
         assertTrue(hasAnagrams(listOf("рот", "свет", "тор")))
         assertFalse(hasAnagrams(listOf("рот", "свет", "код", "дверь")))
+        assertFalse(hasAnagrams(listOf(
+                "",
+                "\"`GB<~/Fd\\;&Sh<IF9h_:\$k;iWy!~XX-e)MQv}PBn%TG? Lz@1M91NtX2V'`!?5^A_,M))!e%HPKXsg+hk.F",
+                "\"",
+                "2+-o6l.t$99OM]:\"d6",
+                "2cu'<S =E\$_S$",
+                "7",
+                "b-i<",
+                "^Q*b/szrdKS%o5G@<m3yDQ",
+                "CT:BBXfk5v1%+S,OTL{04$6iy(3R\"mi9V6-7(vWlR,(_+3o%*!NZ1FRtjx",
+                "64@)j*6\\ewu*",
+                "a\"dQ5\t}VHW=Y?!H6)L2?js8 u0TuW6`?5omEVB\n5>K+8Se Y7rC'jEvJ1e4G@\"`B<v@)kd :Py]zKC[Pd;\\122~O{wOZ,V/hIm&py5@R\n(\"(3YK|T0xW&E=_hKqvQbJg)_{FM&T:nP35H,DPP:3[Q_\"Q!H~Pj"
+        )))
     }
 
     @Test
@@ -363,39 +376,38 @@ class Tests {
                                 "13" to (283 to 149),
                                 "14" to (1 to 143),
                                 "15" to (1 to 149)
-                        ),1677
+                        ), 1677
                 )
         )
         assertEquals(
                 setOf(
-                        //"3",
-                        //"13",
-                        //"6",
-                        //"2",
-                        //"0",
-                        //"4",
-                        //"10",
+                        "13",
+                        "10",
+                        "9",
                         "8",
-                        "9"
+                        "6",
+                        "3",
+                        "2",
+                        "0"
                 ),
                 bagPacking(
                         mapOf(
-                                "0" to (148 to 149),
-                                "1" to (386 to 410),
-                                "2" to (447 to 348),
-                                "3" to (320 to 2),
+                                "0" to (186 to 149),
+                                "1" to (1 to 1),
+                                "2" to (149 to 166),
+                                "3" to (153 to 441),
                                 "4" to (434 to 149),
                                 "5" to (149 to 1),
                                 "6" to (148 to 173),
                                 "7" to (149 to 10),
-                                "8" to (1 to 148),
-                                "9" to (1 to 152),
+                                "8" to (377 to 46),
+                                "9" to (231 to 148),
                                 "10" to (246 to 149),
-                                "11" to (111 to 31),
+                                "11" to (111 to 1),
                                 "12" to (149 to 1),
                                 "13" to (148 to 252),
-                                "20" to (2 to 223)
-                        ), 2
+                                "14" to (469 to 148)
+                        ), 1638
                 )
         )
     }
