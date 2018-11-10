@@ -290,7 +290,45 @@ else description.split("; ").map {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    if (!roman.all { itchar -> "IVXLCDM".contains(itchar) })
+        return -1
+    val list = roman.split("").reversed()
+    val list1 = mutableListOf<Int>()
+    var i = 0
+    var res: Int
+    var ans = 0
+    var number: Int
+    var sign = "+"
+    while (i < list.size - 1) {
+        res = when (list[i]) {
+            "M" -> 1000
+            "D" -> 500
+            "C" -> 100
+            "L" -> 50
+            "X" -> 10
+            "V" -> 5
+            "I" -> 1
+            else -> 0
+        }
+        list1.add(res)
+        i++
+    }
+    for (j in 0 until list1.size) {
+        number = list1[j]
+        ans += when (sign) {
+            "+" -> number
+            "-" -> -number
+            else -> 0
+        }
+        if (j == list1.size - 1) break
+        sign = if (list1[j] <= list1[j + 1]) "+"
+        else "-"
+    }
+
+    return ans
+}
+
 
 /**
  * Очень сложная
