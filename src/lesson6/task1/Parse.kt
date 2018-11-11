@@ -192,7 +192,7 @@ fun bestHighJump(jumps: String): Int {
     val jump = jumps.split(" ")
     var ans = ""
     for (i in 1 until jump.size)
-        if (jump[i] in "%+" && jump.size > 1) {
+        if (jump[i].contains("+") && jump.size > 1) {
             ans += " " + jump[i - 1]
         }
 
@@ -201,7 +201,6 @@ fun bestHighJump(jumps: String): Int {
         else -> -1
     }
 }
-
 
 
 /**
@@ -299,7 +298,7 @@ fun fromRoman(roman: String): Int {
     val list = roman.split("").reversed()
     val list1 = mutableListOf<Int>()
     var i = 0
-    var res = 0
+    var res: Int
     var ans = 0
     var number: Int
     var sign = "+"
@@ -319,6 +318,7 @@ fun fromRoman(roman: String): Int {
     }
     for (j in 0 until list1.size) {
         number = list1[j]
+
         ans += when (sign) {
             "+" -> number
             "-" -> -number
@@ -329,7 +329,7 @@ fun fromRoman(roman: String): Int {
         else "-"
     }
 
-    return if (res != 0) res else -1
+    return if (ans != 0) ans else -1
 }
 
 
