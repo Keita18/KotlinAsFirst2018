@@ -168,11 +168,10 @@ fun bestLongJump(jumps: String): Int {
     var a = -1
 
     for (elem in parts)
-        if (elem.all { elemChar -> "123456780".contains(elemChar) } && elem != "")
+        if (elem.all { elemChar -> "1234567890".contains(elemChar) } && elem != "")
             fil.add(elem.toInt())
     if (fil.maxBy { it } != null && parts2 == v && parts2.isNotEmpty())
         a = fil.toSet().maxBy { it }!!
-
 
     return a
 }
@@ -188,10 +187,12 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
+    if (!jumps.all { itChar -> "0123456789-+% ".contains(itChar) })
+        return -1
     val jump = jumps.split(" ")
     var ans = ""
     for (i in 1 until jump.size)
-        if (jump[i] == "+" && jump.size > 1) {
+        if (jump[i] in "%+" && jump.size > 1) {
             ans += " " + jump[i - 1]
         }
 
@@ -200,6 +201,8 @@ fun bestHighJump(jumps: String): Int {
         else -> -1
     }
 }
+
+
 
 /**
  * Сложная
@@ -279,7 +282,6 @@ else description.split("; ").map {
 }.toMap().maxBy { it.value }?.key + ""
 
 
-
 /**
  * Сложная
  *
@@ -297,7 +299,7 @@ fun fromRoman(roman: String): Int {
     val list = roman.split("").reversed()
     val list1 = mutableListOf<Int>()
     var i = 0
-    var res: Int
+    var res = 0
     var ans = 0
     var number: Int
     var sign = "+"
@@ -327,7 +329,7 @@ fun fromRoman(roman: String): Int {
         else "-"
     }
 
-    return ans
+    return if (res != 0) res else -1
 }
 
 

@@ -309,7 +309,7 @@ class Tests {
     @Test
     @Tag("Hard")
     fun findSumOfTwo() {
- /*       assertEquals(
+       assertEquals(
                 Pair(-1, -1),
                 findSumOfTwo(emptyList(), 1)
         )
@@ -320,7 +320,7 @@ class Tests {
         assertEquals(
                 Pair(-1, -1),
                 findSumOfTwo(listOf(1, 2, 3), 6)
-        ) */
+        )
         assertEquals(
                 Pair(223, 309),
                 findSumOfTwo(listOf(
@@ -891,13 +891,14 @@ class Tests {
                         40700,
                         1,
                         1
-                ) , 62173))
+                )
+                        , 62173))
     }
 
     @Test
     @Tag("Impossible")
     fun bagPacking() {
-        assertEquals(
+        assertEquals (
                 setOf("Кубок"),
                 bagPacking(
                         mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
@@ -977,10 +978,10 @@ class Tests {
                                 "12" to (149 to 1),
                                 "13" to (148 to 252),
                                 "14" to (469 to 148)
-                        ), capacity1 =1638
+                        ),1638
                 )
         )
-    }
+     }
 
     // TODO: map task tests
 }

@@ -146,9 +146,9 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>) = a.all { (key, v
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
     val result = mutableMapOf<String, MutableList<Double>>()
     val answ = mutableMapOf<String, Double>()
-    stockPrices.forEach { (key1, value1) ->
 
-        if (result[key1] == null) result[key1] = mutableListOf(value1) else result[key1]!!.add(value1)
+    stockPrices.forEach { (key1, value1) ->
+        result.getOrPut(key1, ::mutableListOf).add(value1)
     }
     for ((key, value) in result) {
         answ[key] = value.sum() / value.size
@@ -156,6 +156,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
     }
     return answ
 }
+
 
 /**
  * Средняя
