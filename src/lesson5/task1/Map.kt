@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlin.math.abs
+
 /**
  * Пример
  *
@@ -212,7 +214,7 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
 
         for (element in hisFriends) {
 
-            if (friends.containsKey(element))
+            if (friends.containsKey(element) && friends[element] != null)
                 ans[name] = ans[name]!! + friends[element]!! - name
             else ans[element] = setOf()
         }
@@ -315,12 +317,13 @@ fun hasAnagrams(words: List<String>): Boolean {
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     for (element in list.toSet()) {
-        if (number - element in list.toSet() - element)
-            return list.indexOf(element) to list.indexOf(number - element)
+        if (number - element in list - element)
+            return list.indexOf(element) to (list - element).indexOf(number - element) + 1
     }
 
     return -1 to -1
 }
+
 
 /**
  * Очень сложная
