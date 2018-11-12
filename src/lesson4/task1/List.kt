@@ -339,11 +339,16 @@ fun roman(n: Int): String {
 
 fun intoRoman(n: Int): String {
     return when {
-        n < 4 -> "I".repeat(n); n == 400 -> "CD"
-        n == 4 -> "IV"; n == 500 -> "D"
-        n == 5 -> "V"; n == 900 -> "CM"
-        n in 10..39 step 10 -> "X".repeat(n / 10); n in 1000..3999 step 1000 -> "M".repeat(n / 1000)
-        n == 40 -> "XL"; n == 9 -> "IX"
+        n < 4 -> "I".repeat(n)
+        n == 400 -> "CD"
+        n == 4 -> "IV"
+        n == 500 -> "D"
+        n == 5 -> "V"
+        n == 900 -> "CM"
+        n in 10..39 step 10 -> "X".repeat(n / 10)
+        n in 1000..3999 step 1000 -> "M".repeat(n / 1000)
+        n == 40 -> "XL"
+        n == 9 -> "IX"
         n == 50 -> "L"
         n == 90 -> "XC"
         n in 100..399 step 100 -> "C".repeat(n / 100)

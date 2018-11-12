@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class Tests {
     @Test
     @Tag("Example")
-    fun shoppingListCostTest () {
+    fun shoppingListCostTest() {
         val itemCosts = mapOf(
                 "Хлеб" to 50.0,
                 "Молоко" to 100.0
@@ -264,7 +264,7 @@ class Tests {
     @Tag("Normal")
     fun canBuildFrom() {
         assertFalse(canBuildFrom(emptyList(), "foo"))
-        assertTrue(canBuildFrom(listOf('a', 'b', 'o'), "baobab"))
+        assertTrue(canBuildFrom(listOf('A', 'b', 'o'), "Baobab"))
         assertFalse(canBuildFrom(listOf('a', 'm', 'r'), "Marat"))
     }
 
@@ -309,7 +309,7 @@ class Tests {
     @Test
     @Tag("Hard")
     fun findSumOfTwo() {
-       assertEquals(
+        assertEquals(
                 Pair(-1, -1),
                 findSumOfTwo(emptyList(), 1)
         )
@@ -892,13 +892,13 @@ class Tests {
                         1,
                         1
                 )
-                        , 62173))
+                        ,62173))
     }
 
     @Test
     @Tag("Impossible")
     fun bagPacking() {
-        assertEquals (
+        assertEquals(
                 setOf("Кубок"),
                 bagPacking(
                         mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
@@ -909,6 +909,63 @@ class Tests {
                 emptySet<String>(),
                 bagPacking(
                         mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)), 450
+                )
+        )
+        assertEquals(
+                setOf(
+                        "14",
+                        "5"
+                ),
+                bagPacking(
+                        mapOf(
+                                "0" to (223 to 148),
+                                "1" to (2 to 171),
+                                "2" to (273 to 1),
+                                "3" to (70 to 149),
+                                "4" to (148 to 148),
+                                "5" to (1 to 148),
+                                "6" to (354 to 343),
+                                "7" to (149 to 459),
+                                "8" to (350 to 238),
+                                "9" to (436 to 149),
+                                "10" to (289 to 148),
+                                "11" to (148 to 149),
+                                "12" to (460 to 1),
+                                "13" to (1 to 148),
+                                "14" to (1 to 228),
+                                "15" to (2 to 314)
+                        ),2
+                )
+        )
+        assertEquals(
+                setOf(
+                        "13",
+                        "10",
+                        "9",
+                        "8",
+                        "6",
+                        "3",
+                        "2",
+                        "0"
+                ),
+                bagPacking(
+                        mapOf(
+                                "0" to (186 to 149),
+                                "1" to (1 to 1),
+                                "2" to (149 to 166),
+                                "3" to (153 to 441),
+                                "4" to (434 to 149),
+                                "5" to (149 to 1),
+                                "6" to (148 to 173),
+                                "7" to (149 to 10),
+                                "8" to (377 to 46),
+                                "9" to (231 to 148),
+                                "10" to (246 to 149),
+                                "11" to (111 to 1),
+                                "12" to (149 to 1),
+                                "13" to (148 to 252),
+                                "14" to (469 to 148)
+                        ),1638
                 )
         )
         assertEquals(
@@ -947,41 +1004,10 @@ class Tests {
                                 "13" to (283 to 149),
                                 "14" to (1 to 143),
                                 "15" to (1 to 149)
-                        ), 1677
+                        ),1677
                 )
         )
-        assertEquals(
-                setOf(
-                        "13",
-                        "10",
-                        "9",
-                        "8",
-                        "6",
-                        "3",
-                        "2",
-                        "0"
-                ),
-                bagPacking(
-                        mapOf(
-                                "0" to (186 to 149),
-                                "1" to (1 to 1),
-                                "2" to (149 to 166),
-                                "3" to (153 to 441),
-                                "4" to (434 to 149),
-                                "5" to (149 to 1),
-                                "6" to (148 to 173),
-                                "7" to (149 to 10),
-                                "8" to (377 to 46),
-                                "9" to (231 to 148),
-                                "10" to (246 to 149),
-                                "11" to (111 to 1),
-                                "12" to (149 to 1),
-                                "13" to (148 to 252),
-                                "14" to (469 to 148)
-                        ),1638
-                )
-        )
-     }
+    }
 
     // TODO: map task tests
 }
