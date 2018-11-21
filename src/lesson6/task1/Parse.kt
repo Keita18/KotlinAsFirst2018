@@ -146,8 +146,9 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = if (!phone.matches(Regex("""^(\+\s*\d)?([\d\s\-)(])*"""))) ""
-else phone.filter { it == '+' || it.isDigit() }
+fun flattenPhoneNumber(phone: String): String =
+        if (!phone.matches(Regex("""^(\+\s*\d)?([\d\s\-)(])*"""))) ""
+        else phone.filter { it == '+' || it.isDigit() }
 
 
 /**
@@ -162,18 +163,19 @@ else phone.filter { it == '+' || it.isDigit() }
  */
 fun bestLongJump(jumps: String): Int {
     val parts = jumps.split(" ").filter { it != "%" && it != "-" && it != " " }.toSet()
-    val parts2 = jumps.filter { it.isDigit() }
-    val v = jumps.filter { it != '%' && it != '-' && it != ' ' }
-    val fil = mutableListOf<Int>()
-    var a = -1
+    val list = mutableListOf<Int>()
+    val isDigit = jumps.filter { it.isDigit() }
+    val ifsDigit = jumps.filter { it != '%' && it != '-' && it != ' ' }
+    var bestTry = -1
 
     for (elem in parts)
         if (elem.all { elemChar -> "1234567890".contains(elemChar) } && elem != "")
-            fil.add(elem.toInt())
-    if (fil.maxBy { it } != null && parts2 == v && parts2.isNotEmpty())
-        a = fil.toSet().maxBy { it }!!
+            list.add(elem.toInt())
 
-    return a
+    if (list.max() != null && isDigit == ifsDigit && isDigit.isNotEmpty())
+        bestTry = list.toSet().max()!!
+
+    return bestTry
 }
 
 /**
@@ -276,8 +278,7 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String = if (!Regex("""(?:\S+ \d+(?:\.\d+)?)(?:; \S+ \d+(?:\.\d+)?)*""")
                 .matches(description)) ""
 else description.split("; ").map {
-    it.split(' ')
-            .component1() to it.split(' ').component2().toDouble()
+    it.split(' ')[0] to it.split(' ')[1].toDouble()
 }.toMap().maxBy { it.value }?.key + ""
 
 
@@ -293,17 +294,15 @@ else description.split("; ").map {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int {
-    if (!roman.all { itchar -> "IVXLCDM".contains(itchar) })
+    if (!roman.all { itChar -> "IVXLCDM".contains(itChar) })
         return -1
-    val list = roman.split("").reversed()
-    val list1 = mutableListOf<Int>()
+    val romanList = roman.split("").reversed()
+    val numberList = mutableListOf<Int>()
     var i = 0
-    var res: Int
     var ans = 0
-    var number: Int
-    var sign = "+"
-    while (i < list.size - 1) {
-        res = when (list[i]) {
+
+    while (i < romanList.size - 1) {
+        val res = when (romanList[i]) {
             "M" -> 1000
             "D" -> 500
             "C" -> 100
@@ -313,19 +312,23 @@ fun fromRoman(roman: String): Int {
             "I" -> 1
             else -> 0
         }
-        list1.add(res)
+        numberList.add(res)
         i++
     }
-    for (j in 0 until list1.size) {
-        number = list1[j]
+
+    var number: Int
+    var sign = "+"
+
+    for (j in 0 until numberList.size) {
+        number = numberList[j]
 
         ans += when (sign) {
             "+" -> number
             "-" -> -number
             else -> 0
         }
-        if (j == list1.size - 1) break
-        sign = if (list1[j] <= list1[j + 1]) "+"
+        if (j == numberList.size - 1) break
+        sign = if (numberList[j] <= numberList[j + 1]) "+"
         else "-"
     }
 

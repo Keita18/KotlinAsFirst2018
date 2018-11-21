@@ -2,8 +2,6 @@
 
 package lesson5.task1
 
-import kotlin.math.abs
-
 /**
  * Пример
  *
@@ -205,23 +203,48 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+fun propagateHandshakes1(friends: Map<String, Set<String>>): Map<String, Set<String>> {
 
     val ans = mutableMapOf<String, Set<String>>()
+    val start = friends.keys
+    var a: Set<String>
 
     for ((name, hisFriends) in friends) {
         ans[name] = hisFriends
-
-        for (element in hisFriends) {
-
-            if (friends.containsKey(element) && friends[element] != null)
-                ans[name] = ans[name]!! + friends[element]!! - name
-            else ans[element] = setOf()
-        }
+        for (element in hisFriends)
+            if (element in start) {
+                a = frinds(element, name, friends)
+                ans[name] = ans[name]!! + a
+            } else ans[element] = setOf()
     }
+
     return ans
 }
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+    val x = propagateHandshakes1(friends)
+    return propagateHandshakes1(x)
+}
+fun frinds(fri: String, name: String, map: Map<String, Set<String>>): Set<String> {
+    for ((key, value) in map) {
+        if (key == fri)
+            return value - name
+    }
+    return setOf()
+}
 
+fun main(args: Array<String>) {
+    val x = propagateHandshakes(
+            mapOf(
+                    "Sveta" to setOf("booba"),
+                    "Marat" to setOf("Sveta"),
+                    "booba" to setOf("keita", "sidiki", "bah"),
+                    "bah" to setOf("igor", "amiel"),
+                    "amiel" to setOf("qauto"),
+                    "quato" to setOf("wwwq")
+            )
+    )
+    print(x)
+}
 
 /**
  * Простая
@@ -237,6 +260,7 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
+
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Boolean = a.keys.removeIf { b[it] == a[it] }
 
 
@@ -256,8 +280,12 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.filter { it
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = word.toLowerCase().toSet()
-        .all { wordChar -> chars.toSet().map { it.toLowerCase() }.contains(wordChar) }
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    val words = word.toLowerCase().toSet()
+    val listChar = chars.toSet().map { it.toLowerCase() }
+
+    return words.all { wordChar -> listChar.contains(wordChar) }
+}
 
 /**
  * Средняя
@@ -320,7 +348,6 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
         if (number - element in list - element)
             return list.indexOf(element) to (list - element).indexOf(number - element) + 1
     }
-
     return -1 to -1
 }
 
