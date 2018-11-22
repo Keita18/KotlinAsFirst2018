@@ -275,11 +275,11 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String = if (!Regex("""(?:\S+ \d+(?:\.\d+)?)(?:; \S+ \d+(?:\.\d+)?)*""")
-                .matches(description)) ""
-else description.split("; ").map {
-    it.split(' ')[0] to it.split(' ')[1].toDouble()
-}.toMap().maxBy { it.value }?.key + ""
+fun mostExpensive(description: String): String =
+        if (!Regex("""(?:\S+ \d+(?:\.\d+)?)(?:; \S+ \d+(?:\.\d+)?)*""").matches(description)) ""
+        else description.split("; ")
+                .map { it.split(' ')[0] to it.split(' ')[1].toDouble() }
+                .toMap().maxBy { it.value }?.key + ""
 
 
 /**

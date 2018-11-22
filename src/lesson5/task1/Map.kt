@@ -203,48 +203,40 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
-fun propagateHandshakes1(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+    var firstGroup = rechargeable(friends)
+    var secondGroup = rechargeable(firstGroup)
+
+    while (firstGroup != secondGroup) {
+        firstGroup = secondGroup
+        secondGroup = rechargeable(firstGroup)
+    }
+    return firstGroup
+}
+
+fun rechargeable(friends: Map<String, Set<String>>): Map<String, Set<String>> {
 
     val ans = mutableMapOf<String, Set<String>>()
-    val start = friends.keys
-    var a: Set<String>
 
     for ((name, hisFriends) in friends) {
         ans[name] = hisFriends
-        for (element in hisFriends)
-            if (element in start) {
-                a = frinds(element, name, friends)
-                ans[name] = ans[name]!! + a
-            } else ans[element] = setOf()
-    }
 
+        for (element in hisFriends) {
+
+            if (friends.containsKey(element)) {
+
+                val elementFriends = friends[element]
+
+                if (elementFriends != null)
+
+                    ans[name] = ans[name]!! + elementFriends - name
+
+            } else ans[element] = setOf() // для людей у которых нет друзей
+        }
+    }
     return ans
 }
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
-    val x = propagateHandshakes1(friends)
-    return propagateHandshakes1(x)
-}
-fun frinds(fri: String, name: String, map: Map<String, Set<String>>): Set<String> {
-    for ((key, value) in map) {
-        if (key == fri)
-            return value - name
-    }
-    return setOf()
-}
 
-fun main(args: Array<String>) {
-    val x = propagateHandshakes(
-            mapOf(
-                    "Sveta" to setOf("booba"),
-                    "Marat" to setOf("Sveta"),
-                    "booba" to setOf("keita", "sidiki", "bah"),
-                    "bah" to setOf("igor", "amiel"),
-                    "amiel" to setOf("qauto"),
-                    "quato" to setOf("wwwq")
-            )
-    )
-    print(x)
-}
 
 /**
  * Простая
@@ -344,11 +336,25 @@ fun hasAnagrams(words: List<String>): Boolean {
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    for (element in list.toSet()) {
-        if (number - element in list - element)
-            return list.indexOf(element) to (list - element).indexOf(number - element) + 1
+    val res: Pair<Int, Int>
+    val listSet = list.toSet()
+    var first = -1
+    var second = -1
+
+    for (element in listSet) {
+
+        if (number - element in listSet - element) {
+            first = number - element
+            second = element
+        }
     }
-    return -1 to -1
+    val repeatNumber = number / 2
+
+    res = if (repeatNumber in list - repeatNumber)
+        list.indexOf(repeatNumber) to (list - repeatNumber).indexOf(repeatNumber) + 1
+    else list.indexOf(first) to list.indexOf(second)
+
+    return res
 }
 
 
