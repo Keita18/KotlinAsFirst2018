@@ -204,14 +204,14 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *        )
  */
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
-    var firstGroup = rechargeable(friends)
-    var secondGroup = rechargeable(firstGroup)
+    var that = rechargeable(friends) // degree of spread
+    var next = rechargeable(that) // next level
 
-    while (firstGroup != secondGroup) {
-        firstGroup = secondGroup
-        secondGroup = rechargeable(firstGroup)
+    while (that != next) {
+        that = next
+        next = rechargeable(that)
     }
-    return firstGroup
+    return that
 }
 
 fun rechargeable(friends: Map<String, Set<String>>): Map<String, Set<String>> {
@@ -236,7 +236,6 @@ fun rechargeable(friends: Map<String, Set<String>>): Map<String, Set<String>> {
     }
     return ans
 }
-
 
 /**
  * Простая
