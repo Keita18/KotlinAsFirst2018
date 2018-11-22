@@ -164,15 +164,17 @@ fun flattenPhoneNumber(phone: String): String =
 fun bestLongJump(jumps: String): Int {
     val parts = jumps.split(" ").filter { it != "%" && it != "-" && it != " " }.toSet()
     val list = mutableListOf<Int>()
-    val isDigit = jumps.filter { it.isDigit() }
-    val ifsDigit = jumps.filter { it != '%' && it != '-' && it != ' ' }
-    var bestTry = -1
+
+    val firstDigit = jumps.filter { it.isDigit() }
+    val secondDigit = jumps.filter { it != '%' && it != '-' && it != ' ' }
 
     for (elem in parts)
         if (elem.all { elemChar -> "1234567890".contains(elemChar) } && elem != "")
             list.add(elem.toInt())
 
-    if (list.max() != null && isDigit == ifsDigit && isDigit.isNotEmpty())
+    var bestTry = -1
+
+    if (list.max() != null && firstDigit == secondDigit && firstDigit.isNotEmpty())
         bestTry = list.toSet().max()!!
 
     return bestTry
@@ -193,6 +195,7 @@ fun bestHighJump(jumps: String): Int {
         return -1
     val jump = jumps.split(" ")
     var ans = ""
+
     for (i in 1 until jump.size)
         if (jump[i].contains("+") && jump.size > 1) {
             ans += " " + jump[i - 1]
