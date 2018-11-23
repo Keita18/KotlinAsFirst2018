@@ -374,28 +374,30 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 
-fun bagPacking(treasures1: Map<String, Pair<Int, Int>>, capacity1: Int): Set<String> {
-    var b = treasures1.values.filter { (k, _) -> k <= capacity1 }.sortedByDescending { it.second }
-    var f: Pair<Int, Int>?
-    var capa = capacity1
-    var res = setOf<String>()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    var weightsCosts = treasures.values.filter { (k, _) -> k <= capacity }.sortedByDescending { it.second }
+    var weightsMax: Pair<Int, Int>?
+    var weightsMin: Pair<Int, Int>?
+    var capa = capacity
+    var answer = setOf<String>()
 
-    while (capa > 0 && b.isNotEmpty()) {
+    while (capa > 0 && weightsCosts.isNotEmpty()) {
 
-        f = b.filter { it.second != 1 }.maxBy { it.second / it.first.toDouble() }
+        weightsMax = weightsCosts.filter { it.second != 1 }.maxBy { it.second / it.first.toDouble() }
+        weightsMin = weightsCosts.filter { it.second == 1 }.minBy { it.first }
 
-        val e = f!!.first
-        val j = f.second
-        for ((k, v) in treasures1)
-            if (v == e to j && capa >= e) {
-                res += k
-                capa -= e
+        val weight = weightsMax?.first ?: weightsMin!!.first
+        val costs = weightsMax?.second ?: weightsMin!!.second
+        for ((things, weightCost) in treasures)
+            if (weightCost == weight to costs && capa >= weight) {
+                answer += things
+                capa -= weight
 
             }
 
-        b -= f
+        weightsCosts -= weightsMax ?: weightsMin!!
     }
 
-    return res
+    return answer
 }
 
