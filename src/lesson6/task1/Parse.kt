@@ -375,4 +375,60 @@ fun fromRoman(roman: String): Int {
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
  */
-fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+
+fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
+
+    if (!commands.all { itChar -> setOf(' ', '>', '<', '+', '-', '[', ']').contains(itChar) })
+        throw IllegalArgumentException()
+    if (commands.groupBy { it == '[' }.count() != commands.groupBy { it == ']' }.count())
+        throw IllegalArgumentException()
+
+    val cellsArray = Array(cells) { 0 }
+    var position = cells / 2
+    var curCommand = 0
+    var i = 0
+
+    while (curCommand < limit) {
+        if (i >= commands.length) break
+        var sealer = 1 // :)
+        when (commands[i]) {
+            '>' -> position++
+            '<' -> position--
+            '+' -> cellsArray[position]++
+            '-' -> cellsArray[position]--
+            '[' -> {
+                if (cellsArray[position] == 0) {
+
+                    while (sealer > 0) {
+                        i++
+
+                        if (commands[i] == '[')
+                            sealer++
+                        else if (commands[i] == ']')
+                            sealer--
+                    }
+                }
+            }
+            ']' -> {
+                if (cellsArray[position] != 0) {
+
+                    while (sealer > 0) {
+                        i--
+                        if (commands[i] == ']')
+                            sealer++
+                        else if (commands[i] == '[')
+                            sealer--
+                    }
+                }
+            }
+            else -> {
+            }
+        }
+
+        i++
+        curCommand++
+        if (position !in 0 until cells) throw IllegalStateException()
+    }
+    return cellsArray.toList()
+}
+
