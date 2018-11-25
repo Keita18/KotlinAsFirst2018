@@ -382,6 +382,16 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
         throw IllegalArgumentException()
     if (commands.groupBy { it == '[' }.count() != commands.groupBy { it == ']' }.count())
         throw IllegalArgumentException()
+    var checker = 0
+
+    commands.forEach {
+        if (it == '[') checker++
+        else if (it == ']') checker--
+
+        if (checker < 0)
+            throw IllegalArgumentException()
+    }
+
 
     val cellsArray = Array(cells) { 0 }
     var position = cells / 2
