@@ -213,16 +213,16 @@ fun top20Words(inputName: String): Map<String, Int> =
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
-    var text = File(inputName).bufferedReader().readText()
+    var text = File(inputName).bufferedReader().readText().toLowerCase()
     val dict = dictionary.map { it.key.toLowerCase() to it.value }
             .flatMap { (f, s) -> listOf(f to s, f.toUpperCase() to s) }.toSet().toMap()
 
     for (symbol in text) {
-        if (symbol in dict.keys)
 
-            text = text.replace(symbol + "", dict.getValue(symbol)).toLowerCase().capitalize()
+        if (symbol in dict.keys)
+            text = text.replace(symbol + "", dict.getValue(symbol))
     }
-    File(outputName).writeText(text)
+    File(outputName).writeText(text.toLowerCase().capitalize())
 }
 
 /**
