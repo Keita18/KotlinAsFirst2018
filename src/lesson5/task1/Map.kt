@@ -335,22 +335,17 @@ fun hasAnagrams(words: List<String>): Boolean {
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    val listSet = list.toSet()
-    var first = -1
-    var second = -1
 
-    for (element in listSet) {
+    for (element in list) {
+        val digit = number - element
 
-        if (number - element in listSet - element) {
-            first = number - element
-            second = element
+        if (digit in (list - element).toSet()) {
+
+            return list.indexOf(element) to (list - element).indexOf(digit) + 1
         }
     }
-    val repeatNumber = number / 2
+    return -1 to -1
 
-    return if (repeatNumber in list - repeatNumber && number % 2 == 0)
-        list.indexOf(repeatNumber) to (list - repeatNumber).indexOf(repeatNumber) + 1
-    else list.indexOf(first) to list.indexOf(second)
 }
 
 

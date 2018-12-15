@@ -214,7 +214,7 @@ Basic, Ruby, Swift.
                             </p>
                         </body>
                     </html>
-                    """.trimIndent().replace(Regex("[\\s\\n\\t]"), "")
+                    """.trimIndent().replace(Regex("[\\s\\n\\t]"), "" )
         assertEquals(expected, result)
 
         File("temp.html").delete()
@@ -276,7 +276,7 @@ Basic, Ruby, Swift.
                     """.trimIndent().replace(Regex("[\\s\\n\\t]"), "")
         assertEquals(expected, result)
 
-        File("temp.html").delete()
+        File("temp.html")  .delete()
     }
 
     @Test

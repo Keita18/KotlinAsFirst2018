@@ -78,25 +78,18 @@ val months = listOf("января", "февраля", "марта", "апрел�
 
 fun dateStrToDigit(str: String): String {
     val time = str.split(" ")
-    return try {
-        val day = time[0].toInt()
-        val year = time[2].toInt()
-        if (time.size > 3)
-            throw Exception("oops")
-        if (day > 31 || day < 1)
-            throw Exception("Day invalid")
+    if (time.size != 3 || (time[1] !in months))
+        return ""
 
-        if (time[1] !in months)
-            throw Exception("Month invalid")
-        val month = months.indexOf(time[1]) + 1
+    val day = time[0].toInt()
+    val year = time[2].toInt()
+    val month = months.indexOf(time[1]) + 1
 
-        if (daysInMonth(month, year) < day)
-            throw Exception("Day false")
+    if (day > 31 || day < 1 || (daysInMonth(month, year) < day))
+        return ""
 
-        String.format("%02d.%02d.%d", day, month, year)
-    } catch (e: Exception) {
-        ""
-    }
+
+    return String.format("%02d.%02d.%d", day, month, year)
 
 }
 
@@ -112,24 +105,23 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val time = digital.split(".")
+    if (time.size != 3) return ""
+
     return try {
         val day = time[0].toInt()
         val year = time[2].toInt()
         val month = time[1].toInt()
-        if (time.size > 3)
-            throw Exception("oops")
-        if (day > 31 || day < 1)
-            throw Exception("Day invalid")
 
-        if (month > 12)
-            throw Exception("month invalid")
+        if (day !in 1..31 || month !in 1..12)
+            throw NumberFormatException()
+
         val months = months[month - 1]
 
         if (daysInMonth(month, year) < day)
-            throw Exception("Day false")
+            throw NumberFormatException()
 
         String.format("%d %s %d", day, months, year)
-    } catch (e: Exception) {
+    } catch (e: NumberFormatException) {
         ""
     }
 }
@@ -380,18 +372,8 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
 
     if (!commands.all { itChar -> setOf(' ', '>', '<', '+', '-', '[', ']').contains(itChar) })
         throw IllegalArgumentException()
-    if (commands.groupBy { it == '[' }.count() != commands.groupBy { it == ']' }.count())
+    if (commands.filter { it == '[' }.count() != commands.filter { it == ']' }.count())
         throw IllegalArgumentException()
-    var checker = 0
-
-    commands.forEach {
-        if (it == '[') checker++
-        else if (it == ']') checker--
-
-        if (checker < 0)
-            throw IllegalArgumentException()
-    }
-
 
     val cellsArray = Array(cells) { 0 }
     var position = cells / 2
@@ -441,4 +423,72 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     }
     return cellsArray.toList()
 }
+
+fun main(args: Array<String>) {
+    val x = computeDeviceCells(1, "+-++[<--[++-<---<- --[+<-]-]+>- +----[]-<+<->- <-> -<++< -+-+[<--< ---++<<--<-<-+-+>-+>++]<---<--+->-><+<-<-", 0)
+    println(x)
+}
+fun ranking(text: String): MutableMap<String, Int> {
+    if (!Regex("""^(?:\S+[-]\S+ \d+(?:[:]\d+))(?:; \S+[-]\S+ \d+(?:[:]\d+))*""").matches(text))
+        throw IllegalArgumentException()
+
+    val result = mutableMapOf<String, MutableList<Int>>()
+    for (element in text.split("; ")) {
+        val score = element.split(" ")[1].split(":")
+        val winnerLoser = element.split(" ")[0].split("-")
+
+        when {
+            score[0].toInt() > score[1].toInt() -> {
+                result.getOrPut(winnerLoser[0], ::mutableListOf).add(3) // winner
+                result.getOrPut(winnerLoser[1], ::mutableListOf).add(0) // loser
+            }
+            score[0].toInt() == score[1].toInt() -> {
+
+                result.getOrPut(winnerLoser[0], ::mutableListOf).add(1)
+                result.getOrPut(winnerLoser[1], ::mutableListOf).add(1)
+            }
+            score[0].toInt() < score[1].toInt() -> {
+                result.getOrPut(winnerLoser[1], ::mutableListOf).add(3)
+                result.getOrPut(winnerLoser[0], ::mutableListOf).add(0)
+            }
+        }
+
+    }
+    val rank = mutableMapOf<String, Int>()
+    for ((key, value) in result)
+        rank[key] = value.sum()
+    return rank
+
+}
+
+
+fun uniqueHairColor(people: List<String>): Map<String, String> {
+    val result = mutableMapOf<String, MutableList<String>>()
+
+    people.forEach { element ->
+
+        if (!Regex("""(\S+ [#](\d+|[A-F])+)""").matches(element))
+            throw IllegalArgumentException()
+
+        val color = element.split(" ")[1].removePrefix("#")
+        val name = element.split(" ")[0]
+        if (color.count() > 6)
+            throw IllegalArgumentException()
+
+        result.getOrPut(color, ::mutableListOf).add(name)
+    }
+
+    return result.filter { it.value.size == 1 }.map { it.value.first() to it.key }.toMap()
+}
+
+
+
+
+
+
+
+
+
+
+
 

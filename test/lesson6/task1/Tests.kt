@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 
 class Tests {
     @Test
-    @Tag ("Example")
+    @Tag("Example")
     fun timeStrToSeconds() {
         assertEquals(36000, timeStrToSeconds("10:00:00"))
         assertEquals(41685, timeStrToSeconds("11:34:45"))
@@ -33,7 +33,7 @@ class Tests {
 
     @Test
     @Tag("Normal")
-    fun dateStrToDigit() {
+    fun dateStrToDigit( ) {
         assertEquals("15.07.2016", dateStrToDigit("15 июля 2016"))
         assertEquals("", dateStrToDigit("3 мартобря 1918"))
         assertEquals("18.11.2018", dateStrToDigit("18 ноября 2018"))
@@ -146,6 +146,27 @@ class Tests {
                 computeDeviceCells(11, "<<<<< + >>>>>>>>>> --[<-] >+[>+] >++[--< <[<] >+[>+] >++]", 256))
         assertThrows(IllegalArgumentException::class.java) { computeDeviceCells(10, "===", 3) }
         assertThrows(IllegalArgumentException::class.java) { computeDeviceCells(10, "+>+>[+>", 3) }
-        assertThrows(IllegalStateException::class.java) { computeDeviceCells(20, ">>>>>>>>>>>>>", 12) }
+        assertThrows(IllegalStateException::class.java) { computeDeviceCells(20, ">>>>>>>>>>>>>", 12)  }
+    }
+
+    @Test
+    @Tag("normal")
+    fun ranking() {
+        assertEquals(mapOf(
+                "Zenit" to 9, "Real" to 6, "Barca" to 3, "Atletico" to 0)
+                , ranking("Zenit-Real 4:1; Real-Barca 6:0; Zenit-Barca 3:2; Barca-Atletico 3:1; Real-Atletico 1:0; Zenit-Atletico 3:2"))
+        assertEquals(mapOf("Zenit" to 3, "Barca" to 0, "Atletico" to 3), ranking("Zenit-Barca 3:2; Barca-Atletico 3:5"))
+        assertThrows(IllegalArgumentException::class.java) { ranking("Zenit-Barca 3:2; Moscou-Zenit 1:0r") }
+        assertThrows(IllegalArgumentException::class.java) { ranking("Real-Barca 3:2; MoscouZenit 1:0") }
+        assertThrows(IllegalArgumentException::class.java) { ranking("Zenit-Barca 3:2; Moscou-Zenit 10")  }
+    }
+
+    @Test
+    @Tag("Normal")
+    fun uniqueHairColor() {
+        assertEquals(
+                mapOf("Nikita" to "C2C5C6",
+                        "keita" to "B6FF18"), uniqueHairColor(listOf("Nikita #C2C5C6", "keita #B6FF18"  ))  )
     }
 }
+
