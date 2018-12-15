@@ -111,17 +111,12 @@ fun sibilants(inputName: String, outputName: String) {
  */
 fun centerFile(inputName: String, outputName: String) {
     val lines = File(inputName).readLines().map { it.trim() }
-    val text = File(outputName).bufferedWriter()
+    val text = File(outputName)
     val maxLine = lines.map { it.length }.max() ?: 0
 
-    lines.forEach {
-        val size = it.length
-        text.write(" ".repeat((maxLine - size) / 2) + it)
-
-        if (lines.indexOf(it) != size)
-            text.newLine()
-    }
-    text.close()
+    text.writeText(lines.joinToString("\n") {
+        " ".repeat((maxLine - it.length) / 2) + it
+    })
 }
 
 /**
@@ -180,8 +175,7 @@ fun top20Words(inputName: String): Map<String, Int> =
                 .toList()
                 .groupBy { it }.map { (key, value) -> key to value.count() }
                 .sortedByDescending { it.second }
-                .filter { it.second > 1 }.take(20).toMap()
-
+                .take(20).toMap()
 
 /**
  * Средняя
@@ -221,10 +215,12 @@ fun top20Words(inputName: String): Map<String, Int> =
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
     var text = File(inputName).bufferedReader().readText()
     val dict = dictionary.map { it.key.toLowerCase() to it.value }
-            .flatMap { (f, s) -> listOf(f to s, f.toUpperCase() to s) }.toSet()
+            .flatMap { (f, s) -> listOf(f to s, f.toUpperCase() to s) }.toSet().toMap()
 
-    for ((first, second) in dict) {
-        text = text.replace("" + first, second).toLowerCase().capitalize()
+    for (symbol in text) {
+        if (symbol in dict.keys)
+
+            text = text.replace(symbol + "", dict.getValue(symbol)).toLowerCase().capitalize()
     }
     File(outputName).writeText(text)
 }
