@@ -1,11 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson8.task1
 
 import lesson1.task1.sqr
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
+import java.lang.IllegalArgumentException
+import kotlin.math.*
 
 /**
  * Точка на плоскости
@@ -33,7 +32,8 @@ class Triangle private constructor(private val points: Set<Point>) {
 
     val c: Point get() = pointList[2]
 
-    constructor(a: Point, b: Point, c: Point): this(linkedSetOf(a, b, c))
+    constructor(a: Point, b: Point, c: Point) : this(linkedSetOf(a, b, c))
+
     /**
      * Пример: полупериметр
      */
@@ -124,7 +124,7 @@ class Line private constructor(val b: Double, val angle: Double) {
         require(angle >= 0 && angle < PI) { "Incorrect line angle: $angle" }
     }
 
-    constructor(point: Point, angle: Double): this(point.y * cos(angle) - point.x * sin(angle), angle)
+    constructor(point: Point, angle: Double) : this(point.y * cos(angle) - point.x * sin(angle), angle)
 
     /**
      * Средняя
@@ -197,4 +197,57 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
  * соединяющий две самые удалённые точки в данном множестве.
  */
 fun minContainingCircle(vararg points: Point): Circle = TODO()
+
+@Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+class Bitset(private val set: Set<Int>) {
+
+
+    init {
+        val listSize = set.size - 1
+        var negativeElement = false
+        for (element in set) {
+            if (element < 0)
+                negativeElement = true
+        }
+        require(listSize < 10 && !negativeElement) { "error" }
+    }
+
+    fun intersection(otherSet: Bitset): Set<Int> = set.filter { otherSet.set.contains(it) }.toSet()
+
+    fun union(otherSet: Bitset): Set<Int> = set + otherSet.set
+
+    fun addOrDeleteElementToSet(element: Int): Set<Int> = when {
+        element > 0 -> set + element
+        abs(element) in set -> set.filter { it != abs(element) }.toList().toSet()
+        else -> throw IllegalArgumentException("this number isn't in set")
+    }
+
+}
+
+fun main(args: Array<String>) {
+    val x = Bitset(setOf(1, 2, 3, 4, 5))
+    val y = Bitset(setOf(5, 6, 7, 8, 9))
+    val c = Bitset(setOf(11, 12, 10, 9, 2))
+    val z = x.union(y)
+
+    println(Bitset(x.union(y)).addOrDeleteElementToSet(-1))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
